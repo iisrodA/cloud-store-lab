@@ -1,53 +1,52 @@
-# Cloud Computing Evaluation Starter (FastAPI + Google Cloud)
+# Cloud Games Store
 
-This repository is a **minimal and intentionally incomplete** starter for a cloud computing evaluation.
+Catálogo de videojuegos desplegado sobre Google Cloud, construido como parte
+del Segundo Previo de Computación en la Nube. Integra Cloud SQL (PostgreSQL),
+Cloud Storage, Firestore y App Engine Standard.
 
-The objective is to complete and deploy the API in Google Cloud, integrating multiple managed services.
+## Estructura
 
-## What is included
+```
+cloud-store-lab/
+├── app/         # Backend FastAPI (despliega en App Engine)
+└── frontend/    # SPA React + Vite + Tailwind
+```
 
-- `main.py` with endpoint stubs and TODO comments
-- `requirements.txt` with required dependencies
-- `.env.example` with placeholder environment variables
-- `app.yaml.example` as a non-working deployment template
+## Arranque rápido
 
-## Challenge Requirements
-
-Students must connect FastAPI to:
-
-1. **Cloud SQL PostgreSQL** using `psycopg2`.
-2. **Cloud Storage** using the Google Cloud SDK (`google-cloud-storage`).
-3. **Firestore** using the Google Cloud SDK (`google-cloud-firestore`).
-4. **App Engine Standard** deployment.
-
-## Required API Endpoints
-
-- `GET /health`
-- `POST /products`
-- `GET /products`
-- `POST /products/{product_id}/image`
-- `POST /products/{product_id}/comments`
-- `GET /audit/events`
-
-## Important Evaluation Notes
-
-- Local execution is only preparation.
-- The final evaluation happens in Google Cloud.
-- The deployed App Engine app must consume Cloud SQL, Firestore, and Cloud Storage.
-- Students are responsible for IAM permissions, service account configuration, environment variables, and deployment troubleshooting.
-
-## Local Preparation (Not the Final Goal)
-
-Install dependencies:
-
+**Backend:**
 ```bash
+cd app
 pip install -r requirements.txt
+cp .env.example .env       # rellenar valores
+uvicorn main:app --reload  # http://localhost:8000
 ```
 
-Run locally:
-
+**Frontend:**
 ```bash
-uvicorn main:app --reload
+cd frontend
+npm install
+cp .env.example .env       # VITE_API_URL=http://localhost:8000
+npm run dev                # http://localhost:5173
 ```
 
-> Local success does not guarantee cloud evaluation success. Production behavior, IAM, network access, and service wiring must be validated in Google Cloud.
+**Despliegue producción:**
+```bash
+cd app && gcloud app deploy app.yaml
+cd frontend && npm run build   # subir dist/ a Firebase Hosting / Cloud Storage / etc.
+```
+
+## Documentación
+
+- [`app/README.md`](app/README.md) — guía detallada del backend, IAM, despliegue, troubleshooting, ejemplos Postman.
+- [`instrucciones.html`](instrucciones.html) — enunciado original de la evaluación.
+- [`CLAUDE.md`](CLAUDE.md) — guía para asistentes de IA trabajando en este repo.
+
+## Servicios cloud usados
+
+| Servicio                | Uso                                            |
+| ----------------------- | ---------------------------------------------- |
+| App Engine Standard     | Hosting de la API FastAPI                      |
+| Cloud SQL (PostgreSQL)  | Productos y comentarios                        |
+| Cloud Storage           | Almacenamiento de imágenes de videojuegos     |
+| Firestore               | Auditoría (eventos GAME_CREATED, etc.)         |
