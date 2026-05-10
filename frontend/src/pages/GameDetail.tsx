@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { api, type Comment, type Product } from '../services/api'
 
 const inputCls =
@@ -8,6 +8,7 @@ const inputCls =
 export default function GameDetail() {
   const { id } = useParams()
   const productId = Number(id)
+  const navigate = useNavigate()
 
   const [game, setGame] = useState<Product | null>(null)
   const [comments, setComments] = useState<Comment[]>([])
@@ -46,10 +47,20 @@ export default function GameDetail() {
     }
   }
 
-  if (error && !game) return <p className="text-red-400">Error: {error}</p>
-  if (!game) return <p className="text-slate-400">Cargando...</p>
+  if (error && !game) return <p className="animate-fade-in text-red-400">Error: {error}</p>
+  if (!game) return <p className="animate-fade-in text-slate-400">Cargando...</p>
 
   return (
+    <div className="animate-fade-in-up">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-6 flex items-center gap-2 text-sm text-slate-400 transition hover:text-cyan-400"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+        </svg>
+        Regresar
+      </button>
     <div className="grid gap-8 lg:grid-cols-2">
       <div>
         <div className="aspect-video overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
@@ -125,6 +136,7 @@ export default function GameDetail() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   )
 }

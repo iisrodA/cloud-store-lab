@@ -43,7 +43,7 @@ export default function CreateGame() {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="animate-fade-in-up flex justify-center">
     <div className="w-full max-w-xl">
       <h1 className="mb-6 text-3xl font-bold">Nuevo videojuego</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
