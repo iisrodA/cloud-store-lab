@@ -10,6 +10,8 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 
+import os
+
 # Load .env for local development. On App Engine, env vars come from app.yaml
 # and this call is a no-op when the file is absent.
 try:
@@ -17,6 +19,13 @@ try:
     load_dotenv()
 except ImportError:
     pass
+
+# If GOOGLE_APPLICATION_CREDENTIALS points to a file that doesn't exist
+# (e.g. a local path deployed accidentally to App Engine), remove it so
+# the SDK falls back to Application Default Credentials automatically.
+_creds = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if _creds and not os.path.exists(_creds):
+    os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
 
 import database
 import firestore_service
