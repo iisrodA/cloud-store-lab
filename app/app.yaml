@@ -7,10 +7,10 @@ entrypoint: gunicorn -w 2 -k uvicorn.workers.UvicornWorker main:app
 env_variables:
   GOOGLE_CLOUD_PROJECT: "REPLACE_ME"
   # Cloud SQL — INSTANCE_CONNECTION_NAME drives the Unix-socket connection in database.py.
-  INSTANCE_CONNECTION_NAME: "REPLACE_ME:REGION:INSTANCE"
+  INSTANCE_CONNECTION_NAME: "computacion-en-la-nube-489021:us-central1:fastapi-db"
   DB_NAME: "cloudgames"
-  DB_USER: "REPLACE_ME"
-  DB_PASSWORD: "REPLACE_ME"
+  DB_USER: "postgres"
+  DB_PASSWORD: "compUt@nUb3"
   # Cloud Storage
   GCS_BUCKET_NAME: "REPLACE_ME"
   # Firestore
@@ -18,7 +18,7 @@ env_variables:
 
 # Mounts the Cloud SQL socket at /cloudsql/<INSTANCE_CONNECTION_NAME>.
 beta_settings:
-  cloud_sql_instances: "REPLACE_ME:REGION:INSTANCE"
+  cloud_sql_instances: "computacion-en-la-nube-489021:us-central1:fastapi-db"
 
 handlers:
   - url: /.*
