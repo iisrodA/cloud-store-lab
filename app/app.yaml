@@ -5,7 +5,7 @@ runtime: python311
 entrypoint: gunicorn -w 2 -k uvicorn.workers.UvicornWorker main:app
 
 env_variables:
-  GOOGLE_CLOUD_PROJECT: "REPLACE_ME"
+  GOOGLE_CLOUD_PROJECT: "computacion-en-la-nube-489021"
   # Cloud SQL — INSTANCE_CONNECTION_NAME drives the Unix-socket connection in database.py.
   INSTANCE_CONNECTION_NAME: "computacion-en-la-nube-489021:us-central1:fastapi-db"
   DB_NAME: "cloudgames"
