@@ -14,6 +14,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </Link>
           <nav className="flex gap-6">
             <NavLink to="/" end className={navClass}>Catálogo</NavLink>
+            <NavLink to="/audit" className={navClass}>Eventos</NavLink>
             <NavLink to="/create" className={navClass}>Crear juego</NavLink>
           </nav>
         </div>
