@@ -1,0 +1,11 @@
+.gcloudignore
+.git
+.gitignore
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.local
+keys/
