@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="animate-fade-in-up mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Catálogo</h1>
         <Link
           to="/create"
@@ -30,10 +30,10 @@ export default function Home() {
           Nuevo juego
         </Link>
       </div>
-      {loading && <p className="text-slate-400">Cargando catálogo...</p>}
-      {error && <p className="text-red-400">Error: {error}</p>}
+      {loading && <p className="animate-fade-in text-slate-400">Cargando catálogo...</p>}
+      {error && <p className="animate-fade-in text-red-400">Error: {error}</p>}
       {!loading && !error && games.length === 0 && (
-        <p className="text-slate-400">
+        <p className="animate-fade-in text-slate-400">
           Aún no hay juegos.{' '}
           <Link to="/create" className="text-cyan-400 underline">
             Crea el primero
@@ -43,8 +43,8 @@ export default function Home() {
       )}
       {games.length > 0 && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {games.map((g) => (
-            <GameCard key={g.id} game={g} />
+          {games.map((g, i) => (
+            <GameCard key={g.id} game={g} style={{ animationDelay: `${i * 0.1}s` }} />
           ))}
         </div>
       )}

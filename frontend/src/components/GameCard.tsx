@@ -1,11 +1,13 @@
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import type { Product } from '../services/api'
 
-export default function GameCard({ game }: { game: Product }) {
+export default function GameCard({ game, style }: { game: Product; style?: CSSProperties }) {
   return (
     <Link
       to={`/games/${game.id}`}
-      className="group overflow-hidden rounded-xl border border-slate-800 bg-slate-900 transition hover:border-cyan-500/60 hover:shadow-lg hover:shadow-cyan-500/10"
+      style={style}
+      className="animate-fade-in-up group overflow-hidden rounded-xl border border-slate-800 bg-slate-900 transition hover:border-cyan-500/60 hover:shadow-lg hover:shadow-cyan-500/10"
     >
       <div className="aspect-video overflow-hidden bg-slate-800">
         {game.image_url ? (
