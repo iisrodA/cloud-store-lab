@@ -12,7 +12,7 @@ env_variables:
   DB_USER: "postgres"
   DB_PASSWORD: "compUt@nUb3"
   # Cloud Storage
-  GCS_BUCKET_NAME: "REPLACE_ME"
+  GCS_BUCKET_NAME: "cloudgames-storage-489021"
   # Firestore
   FIRESTORE_COLLECTION_AUDIT_EVENTS: "audit_events"
 
