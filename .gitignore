@@ -12,6 +12,7 @@ venv/
 sa-key.json
 *-credentials.json
 *.p12
+app/keys/
 
 # Frontend
 node_modules/
