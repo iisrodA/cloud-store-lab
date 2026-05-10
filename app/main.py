@@ -7,6 +7,7 @@ Wires together:
 - Firestore for audit events                        [firestore_service.py]
 """
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 
 # Load .env for local development. On App Engine, env vars come from app.yaml
@@ -31,6 +32,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    return Response(status_code=204)
 
 
 @app.get("/health")

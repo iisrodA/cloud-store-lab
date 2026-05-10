@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useParams } from 'react-router-dom'
 import { api, type Comment, type Product } from '../services/api'
 
@@ -14,7 +14,7 @@ export default function GameDetail() {
   const [author, setAuthor] = useState('')
   const [content, setContent] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [uploading, setUploading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const load = async () => {
     const [g, c] = await Promise.all([
@@ -29,24 +29,10 @@ export default function GameDetail() {
     load().catch((e: Error) => setError(e.message))
   }, [productId])
 
-  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0]
-    if (!f) return
-    setUploading(true)
-    setError(null)
-    try {
-      await api.uploadImage(productId, f)
-      await load()
-    } catch (err) {
-      setError((err as Error).message)
-    } finally {
-      setUploading(false)
-    }
-  }
-
   const handleComment = async (e: FormEvent) => {
     e.preventDefault()
     if (!author.trim() || !content.trim()) return
+    setSubmitting(true)
     setError(null)
     try {
       await api.addComment(productId, author, content)
@@ -55,6 +41,8 @@ export default function GameDetail() {
       await load()
     } catch (err) {
       setError((err as Error).message)
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -73,16 +61,6 @@ export default function GameDetail() {
             </div>
           )}
         </div>
-        <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-200 transition hover:border-cyan-500 hover:text-cyan-400">
-          {uploading ? 'Subiendo...' : 'Subir / actualizar imagen'}
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleUpload}
-            disabled={uploading}
-          />
-        </label>
       </div>
 
       <div>
@@ -119,9 +97,16 @@ export default function GameDetail() {
           {error && <p className="text-sm text-red-400">{error}</p>}
           <button
             type="submit"
-            className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950 transition hover:bg-cyan-400"
+            disabled={submitting}
+            className="flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950 transition hover:bg-cyan-400 disabled:opacity-50"
           >
-            Publicar comentario
+            {submitting && (
+              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+              </svg>
+            )}
+            {submitting ? 'Publicando...' : 'Publicar comentario'}
           </button>
         </form>
 
